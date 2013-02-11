@@ -28,7 +28,7 @@ Ext.define('Memo.controller.Memo', {
 
     onAddButtonTap: function() {
         var record = Ext.create('Memo.model.Memo', {
-            id: Ext.Date.now()
+            id: String(Ext.Date.now())
         });
 
         var form = this.getForm();
@@ -75,15 +75,6 @@ Ext.define('Memo.controller.Memo', {
 
         store.removeAt(store.indexOf(record));
         store.sync();
-
-        // Quick hack
-        // See. http://stackoverflow.com/questions/10863204/sencha-touch-localstore-proxy-not-removing-indexes-after-records-deleted
-        var id = String(record.getId());
-        var indexes = localStorage.memo.split(',') || [];
-        var newIndexes = indexes.filter(function(v) {
-            return v !== id;
-        }).join(',');
-        localStorage.setItem('memo', newIndexes);
 
         this.getMain().onBackButtonTap();
     },
